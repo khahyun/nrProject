@@ -74,7 +74,9 @@ userSchema.methods.comparePassword = function(plainPassword, cb){
 userSchema.methods.generateToken = function(cb){
     var user = this;
     // json web token 이용하여 token 생성하기
-    // user id 와 두번째 param 으로 토큰을 만들고, param 을 이용하여 나중에 userid를 찾아낸다. 
+    // user._id 와 두번째 param 으로 토큰을 만들고, param 을 이용하여 나중에 userid를 찾아낸다. 
+    // user._id + 'secretToken' = token    
+    // 나중에 token으로 user._id를 찾을 수 있다.
                             //plain object로 만들기
   var token = jwt.sign(user._id.toHexString(), "secretToken")
 
@@ -83,6 +85,20 @@ userSchema.methods.generateToken = function(cb){
    if(err) return cb(err);
    cb(null,user);
 })
+}
+
+userSchema.statics.findByToken = function ( token, cb){
+    var user = this;
+    //복호화
+    jwt.verify(token, 'secretToken', function(err, decoded){
+        //decoded 가 _id
+             //findOne 몽고디비 method
+        user.findOne({"_id" : decoded, "token": token}, function(err, user){
+            if(err) return cb(err);
+            cb(null, user);
+
+        })
+    })
 }
 //다른 곳에서도 쓸 수 있도록
 const User = mongoose.model('User', userSchema)

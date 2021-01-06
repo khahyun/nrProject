@@ -1,83 +1,86 @@
-import React, { useState } from 'react'
+import React, { useRef } from 'react'
 import { useDispatch } from 'react-redux';
 import { registerUser } from '../../../_actions/user_action';
-import Axios from 'axios';
 import { withRouter } from 'react-router-dom';
-function RegisterPage(props) {
+import { useForm } from "react-hook-form";
+import '../App.css';
+
+function RegisterPage(props) {  
     const dispatch = useDispatch();
+    
+    const { register, handleSubmit, watch, errors } = useForm();
+    const password = useRef();
+    password.current = watch("password");
+    //비밀번호 입력할 때마다 값이 들어간다.
 
-    const [Email, setEmail] = useState("")
-    const [Name, setName] = useState("")
-    const [Password, setPassword] = useState("")
-    const [ConfirmPassword, setConfirmPassword] = useState("")
+    const onSubmit = (data) => {
 
+        console.log('data', data)
 
-    const onEmailHandler = (event) => {
-        setEmail(event.currentTarget.value)
-    }
-
-    const onNameHandler = (event) => {
-        setName(event.currentTarget.value)
-    }
-
-    const onPasswordHandler = (event) => {
-        setPassword(event.currentTarget.value)
-    }
-
-    const onConfirmPasswordHandler = (event) => {
-        setConfirmPassword(event.currentTarget.value)
-    }
-
-    const onSubmitHandler = (event) => {
-        event.preventDefault();
-
-        if (Password !== ConfirmPassword) {
-            return alert('비밀번호와 비밀번호 확인은 같아야 합니다.')
-        }
-
-        let body = {
-            email: Email,
-            password: Password,
-            name: Name
-        }
-        dispatch(registerUser(body))
-            .then(response => {
-                if (response.payload.success) {
-                    props.history.push("/login")
-                } else {
-                    alert("Failed to sign up")
-                }
-            })
-    }
-
+        dispatch(registerUser(data))
+        .then(response => {
+            if (response.payload.success) {
+                props.history.push("/login")
+            } else {
+                alert("Failed to sign up")
+            }
+        })
+    };
 
 
     return (
-        <div style={{
-            display: 'flex', justifyContent: 'center', alignItems: 'center'
-            , width: '100%', height: '100vh'
-        }}>
-            <form style={{ display: 'flex', flexDirection: 'column' }}
-                onSubmit={onSubmitHandler}
-            >
-                <label>Email</label>
-                <input type="email" value={Email} onChange={onEmailHandler} />
+       
+<form onSubmit={handleSubmit(onSubmit)}>
+      <label>Email</label>
+      <input
+        name="email"
+        type="email"
+        ref={register({ required: true, pattern: /^\S+@\S+$/i })}
+      />
+      {errors.email && <p>This email field is required</p>}
 
-                <label>Name</label>
-                <input type="text" value={Name} onChange={onNameHandler} />
+      <label>Name</label>
+      <input
+        name="name"
+        ref={register({ required: true, maxLength: 10 })}
+      />
+      {errors.name && errors.name.type === "required"
+        && <p> This name field is required</p>}
+      {errors.name && errors.name.type === "maxLength"
+        && <p> Your input exceed maximum length</p>}
 
-                <label>Password</label>
-                <input type="password" value={Password} onChange={onPasswordHandler} />
+      <label>Password</label>
+      <input
+        name="password"
+        type="password"
+        ref={register({ required: true, minLength: 6 })}
+      />
+      {errors.password && errors.password.type === "required"
+        && <p> This name field is required</p>}
+      {errors.password && errors.password.type === "minLength"
+        && <p> Password must have at least 6 characters</p>}
 
-                <label>Confirm Password</label>
-                <input type="password" value={ConfirmPassword} onChange={onConfirmPasswordHandler} />
+      <label>Password Confirm</label>
+      <input
+        type="password"
+        name="password_confirm"
+        ref={register({
+          required: true,
+          validate: (value) =>
+            value === password.current
+        })}
+      />
+      {errors.password_confirm && errors.password_confirm.type === "required"
+        && <p> This password confirm field is required</p>}
+      {errors.password_confirm && errors.password_confirm.type === "validate"
+        && <p>The passwords do not match</p>}
 
-                <br />
-                <button type="submit">
-                    회원 가입
-                </button>
-            </form>
-        </div>
+      <input type="submit"
+        style={{ marginTop: '40px' }}
+      />
+
+    </form>
+            
     )
 }
 

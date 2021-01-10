@@ -1,5 +1,5 @@
 body {
-  background: #0e101c;
+  background: white;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
@@ -38,7 +38,7 @@ input {
   box-sizing: border-box;
   width: 100%;
   border-radius: 4px;
-  border: 1px solid white;
+  border: 1px solid rgb(7, 7, 7);
   padding: 10px 15px;
   margin-bottom: 10px;
   font-size: 14px;
@@ -50,14 +50,14 @@ label {
   display: block;
   margin-bottom: 13px;
   margin-top: 20px;
-  color: white;
+  color: black;
   font-size: 14px;
   font-weight: 200;
 }
 
 button[type="submit"],
 input[type="submit"] {
-  background: #ec5990;
+  background: rgb(65, 142, 206);
   color: white;
   text-transform: uppercase;
   border: none;
@@ -70,7 +70,7 @@ input[type="submit"] {
 
 button[type="submit"]:hover,
 input[type="submit"]:hover {
-  background: #bf1650;
+  background: #c5406f;
 }
 
 button[type="submit"]:active,

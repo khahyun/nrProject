@@ -22,7 +22,7 @@ function RegisterPage(props) {
             if (response.payload.success) {
                 props.history.push("/login")
             } else {
-                alert("Failed to sign up")
+                alert("회원가입 실패")
             }
         })
     };
@@ -37,7 +37,7 @@ function RegisterPage(props) {
         type="email"
         ref={register({ required: true, pattern: /^\S+@\S+$/i })}
       />
-      {errors.email && <p>This email field is required</p>}
+      {errors.email && <p>이메일을 입력해주세요.</p>}
 
       <label>Name</label>
       <input
@@ -45,9 +45,9 @@ function RegisterPage(props) {
         ref={register({ required: true, maxLength: 10 })}
       />
       {errors.name && errors.name.type === "required"
-        && <p> This name field is required</p>}
+        && <p> 이름을 입력해주세요.</p>}
       {errors.name && errors.name.type === "maxLength"
-        && <p> Your input exceed maximum length</p>}
+        && <p> 이름을 확인해주세요.</p>}
 
       <label>Password</label>
       <input
@@ -56,9 +56,9 @@ function RegisterPage(props) {
         ref={register({ required: true, minLength: 6 })}
       />
       {errors.password && errors.password.type === "required"
-        && <p> This name field is required</p>}
+        && <p> 비밀번호를 입력해주세요.</p>}
       {errors.password && errors.password.type === "minLength"
-        && <p> Password must have at least 6 characters</p>}
+        && <p> 비밀번호는 6자리 이상으로 입력해주세요.</p>}
 
       <label>Password Confirm</label>
       <input
@@ -71,9 +71,9 @@ function RegisterPage(props) {
         })}
       />
       {errors.password_confirm && errors.password_confirm.type === "required"
-        && <p> This password confirm field is required</p>}
+        && <p> 비밀번호를 한번 더 입력해주세요.</p>}
       {errors.password_confirm && errors.password_confirm.type === "validate"
-        && <p>The passwords do not match</p>}
+        && <p>위의 비밀번호 값과 다릅니다.</p>}
 
       <input type="submit"
         style={{ marginTop: '40px' }}

@@ -2,14 +2,13 @@ import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
+import Auth from '../hoc/auth'
 
 import LandingPage from './views/LandingPage/LandingPage'
 import LoginPage from './views/LoginPage/LoginPage';
 import RegisterPage from './views/RegisterPage/RegisterPage';
-import Auth from '../hoc/auth'
 import NavBar from "./views/NavBar/NavBar";
 import Footer from "./views/Footer/Footer";
 import './views/main.css';

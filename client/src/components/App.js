@@ -7,6 +7,7 @@ import {
 import Auth from '../hoc/auth'
 
 import LandingPage from './views/LandingPage/LandingPage'
+import MapContainer from './views/LandingPage/MapContainer'
 import LoginPage from './views/LoginPage/LoginPage';
 import RegisterPage from './views/RegisterPage/RegisterPage';
 import NavBar from "./views/NavBar/NavBar";
@@ -22,6 +23,7 @@ function App() {
           <Route exact path="/" component={Auth(LandingPage, null )  } />
           <Route exact path="/login" component={Auth(LoginPage, false) } />
           <Route exact path="/register" component={Auth(RegisterPage, false)} />
+          <Route exact path="/aptMap" component={Auth(MapContainer, null)} />
         </Switch>
       </div>
       <Footer />

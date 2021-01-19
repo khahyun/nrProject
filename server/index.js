@@ -33,6 +33,41 @@ app.get('/api/hello', (req, res) => {
   res.send("안녕하세요!!")
 })
 
+const request = require('request');
+const convert = require('xml-js');
+const url = 'http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev';
+
+let queryParams = '?' + encodeURIComponent('ServiceKey') + '=bnBEGVuwtT5NKo0egMDg6k%2FWfO3cZecOEIZATTr0dTRRpi029EspW9zP6rSctze7j669Uc59LDlU%2BDpvgwNBqw%3D%3D'; /* Service Key*/
+queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /* */
+queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('10'); /* */
+queryParams += '&' + encodeURIComponent('LAWD_CD') + '=' + encodeURIComponent('11110'); /* */
+queryParams += '&' + encodeURIComponent('DEAL_YMD') + '=' + encodeURIComponent('201512'); /* */
+
+
+app.get('/api/apt', (req, res) => {
+
+  request.get(url + queryParams, (err, response, body) => {
+    if (err) {
+      console.log(`err => ${err}`);
+    }
+    else {
+      if (response.statusCode == 200) {
+        const xml = body;
+        // console.log(`body data => ${result}`);
+        const result = convert.xml2json(xml, { 
+          compact: true, 
+          spaces: 4 
+        });
+        const jsonData = JSON.parse(result);
+        // console.log(xmlToJson.response.body.items.item[0]);
+        res.send(jsonData.response.body.items);
+      }
+    }
+  });
+
+});
+
+
 //회원가입을 위한 라우터
 app.post('/api/users/register',(req,res) => {
 

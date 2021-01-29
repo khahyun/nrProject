@@ -37,15 +37,20 @@ const convert = require('xml-js');
 const url = 'http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev';
 
 let queryParams = '?' + encodeURIComponent('ServiceKey') + '=bnBEGVuwtT5NKo0egMDg6k%2FWfO3cZecOEIZATTr0dTRRpi029EspW9zP6rSctze7j669Uc59LDlU%2BDpvgwNBqw%3D%3D'; /* Service Key*/
-queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /* */
-queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('10'); /* */
-queryParams += '&' + encodeURIComponent('LAWD_CD') + '=' + encodeURIComponent('11110'); /* */
-queryParams += '&' + encodeURIComponent('DEAL_YMD') + '=' + encodeURIComponent('201512'); /* */
+//queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /* */
+//queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('10'); /* */
+//queryParams += '&' + encodeURIComponent('LAWD_CD') + '=' + encodeURIComponent('11110'); /* */
+//queryParams += '&' + encodeURIComponent('DEAL_YMD') + '=' + encodeURIComponent('201512'); /* */
 
 console.log(url + queryParams);
 
-app.get('/api/apt', (req, res) => {
-  console.log(req);
+app.post('/api/apt', (req, res) => {
+  console.log(req.body);
+  let LAWD_CD = req.body.myDong;
+  let DEAL_YMD = req.body.myDate;
+  let pageNo = req.body.myPage;
+  queryParams += '&' + encodeURIComponent('pageNo') + '=' + pageNo +'&' + encodeURIComponent('numOfRows') + '=10' +
+  '&' + encodeURIComponent('LAWD_CD') + '=' + LAWD_CD + '&' + encodeURIComponent('DEAL_YMD') + '=' + DEAL_YMD;
   request.get(url + queryParams, (err, response, body) => {
     if (err) {
       console.log(`err => ${err}`);

@@ -6,13 +6,7 @@ const { daum } = window;
 const { kakao } = window;
 const axios = require('axios');
 
-async function getData(){
-    const response = await axios.get(
-        '/api/apt'
-    );
-    console.log(response);
-    return response.data;
-}
+
 
 let dong;
 const MapContainer = () => {
@@ -69,7 +63,19 @@ const MapContainer = () => {
 
                     }
 
-                    getData();
+
+                        let  body = {
+                            myDong:  dong,
+                            myPage:  1,
+                            myDate: "202012"
+                        }
+                        
+                        axios.post('/api/apt', body)
+                            .then(response  => {
+                                console.log(response);
+                        })
+                    
+                
 
 
                     

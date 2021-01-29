@@ -1,4 +1,3 @@
-const { request } = require('express')
 const express = require('express')
 const app = express()
 //function 을 사용해 app으로..
@@ -43,9 +42,10 @@ queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent(
 queryParams += '&' + encodeURIComponent('LAWD_CD') + '=' + encodeURIComponent('11110'); /* */
 queryParams += '&' + encodeURIComponent('DEAL_YMD') + '=' + encodeURIComponent('201512'); /* */
 
+console.log(url + queryParams);
 
 app.get('/api/apt', (req, res) => {
-
+  console.log(req);
   request.get(url + queryParams, (err, response, body) => {
     if (err) {
       console.log(`err => ${err}`);

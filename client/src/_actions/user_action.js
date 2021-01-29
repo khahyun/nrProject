@@ -47,3 +47,13 @@ export function logoutUser(){
     }
 }
 
+export function getAptInfo(){
+    const request = axios.get('api/apt')
+    .then(response => response.data);
+
+    return {
+        type: "aptInfo",
+        payload: request
+    }
+}
+

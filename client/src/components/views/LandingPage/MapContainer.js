@@ -1,22 +1,25 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import { useDispatch } from 'react-redux';
+import { getAptInfo } from '../../../_actions/user_action';
 
 const { daum } = window;
 const { kakao } = window;
+const axios = require('axios');
 
+async function getData(){
+    const response = await axios.get(
+        '/api/apt'
+    );
+    console.log(response);
+    return response.data;
+}
 
+let dong;
 const MapContainer = () => {
-
     let myLocation;
-
-
-
-
     const sample5_execDaumPostcode = () => {
 
-
         new daum.Postcode({
-
-
 
 
             oncomplete: function (data) {
@@ -50,7 +53,7 @@ const MapContainer = () => {
                         var coords = new daum.maps.LatLng(result.y, result.x);
                         // 지도를 보여준다.
                         
-                        var dong = result.address.h_code.substr(0,5);
+                        dong = result.address.h_code.substr(0,5);
                         myLocation = result.address.region_1depth_name + " " + result.address.region_2depth_name + " "+ result.address.region_3depth_name;
 
                         let mapS = document.getElementById('sss');
@@ -65,6 +68,12 @@ const MapContainer = () => {
                         marker.setPosition(coords);
 
                     }
+
+                    getData();
+
+
+                    
+                                        
                 });
             }
         }).open();
@@ -110,7 +119,7 @@ const MapContainer = () => {
         <div class= "d_container" style={dcStyle}>
             <div class="d_box" style={dbStyle}>
             <br/>
-            <h2>&emsp 아파트 실거래가를 검색하세요 </h2>
+            <h2>&emsp; 아파트 실거래가를 검색하세요 </h2>
             <input id="sample5_address" value="검색하세요" style={iStyle}/>
             <input type="button" onClick={sample5_execDaumPostcode} value="주소 검색" style={bStyle}/>
             <div id="mapp" style={tempStyle}>
@@ -122,6 +131,4 @@ const MapContainer = () => {
     );
 }
 
-
-export let myLocation; 
 export default MapContainer; 
